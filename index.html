@@ -128,7 +128,7 @@ async function analizar() {
   document.getElementById('resultados').classList.remove('visible');
 
   try {
-    const apiKey = 'TU_CLAVE_GEMINI_AQUI';
+    const apiKey = 'AIzaSyCykxgbXUEP6D4_mk-bYqZ9fWC2NjuAxUc';
     const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
