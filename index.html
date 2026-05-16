@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContratoSeguro — Analiza contratos con IA</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+nav { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+.logo span { color: #2563eb; }
+.btn-pro { background: #2563eb; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; }
+.hero { text-align: center; padding: 48px 24px 32px; }
+.hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+.hero p { font-size: 16px; color: #555; max-width: 500px; margin: 0 auto 20px; }
+.badge { display: inline-block; background: #dcfce7; color: #166534; font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; }
+.ad { margin: 0 auto 24px; max-width: 700px; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.ad-label { font-size: 11px; color: #999; }
+.ad-text { font-size: 13px; color: #555; }
+.main { max-width: 700px; margin: 0 auto; padding: 0 24px 48px; }
+.card { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.card-title { font-size: 15px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+textarea { width: 100%; min-height: 140px; padding: 12px; font-size: 14px; border: 1px solid #d1d5db; border-radius: 8px; background: #f9f9f9; color: #1a1a1a; resize: vertical; font-family: inherit; line-height: 1.6; }
+textarea:focus { outline: none; border-color: #2563eb; }
+.counter { font-size: 12px; color: #999; text-align: right; margin-top: 6px; }
+.btn-analizar { width: 100%; padding: 13px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 14px; transition: background 0.2s; }
+.btn-analizar:hover { background: #1d4ed8; }
+.btn-analizar:disabled { background: #93c5fd; cursor: not-allowed; }
+.loading { display: none; text-align: center; padding: 28px; color: #555; font-size: 14px; }
+.loading.visible { display: block; }
+.spinner { width: 22px; height: 22px; border: 3px solid #e5e5e5; border-top-color: #2563eb; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.results { display: none; }
+.results.visible { display: block; }
+.result-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+.result-item:last-child { border-bottom: none; }
+.tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.tag-alto { background: #fee2e2; color: #991b1b; }
+.tag-medio { background: #fef3c7; color: #92400e; }
+.tag-info { background: #dbeafe; color: #1e40af; }
+.result-titulo { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.result-desc { font-size: 13px; color: #555; line-height: 1.5; }
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.plan { border: 1px solid #e5e5e5; border-radius: 12px; padding: 18px; }
+.plan.destacado { border: 2px solid #2563eb; }
+.plan-nombre { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.plan-precio { font-size: 26px; font-weight: 700; color: #2563eb; margin-bottom: 10px; }
+.plan-precio small { font-size: 14px; color: #999; font-weight: 400; }
+.popular { font-size: 11px; background: #dbeafe; color: #1e40af; border-radius: 20px; padding: 3px 10px; display: inline-block; margin-bottom: 8px; font-weight: 600; }
+.plan-item { font-size: 13px; color: #555; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+.check { color: #16a34a; font-weight: 700; }
+.cross { color: #dc2626; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span>Contrato</span>Seguro</div>
+  <button class="btn-pro">Pro — $9/mes</button>
+</nav>
+
+<div class="hero">
+  <div class="badge">✓ 3 análisis gratis al mes</div>
+  <h1>Detecta riesgos en contratos<br>y términos legales con IA</h1>
+  <p>Pega cualquier contrato, política de privacidad o términos y condiciones. La IA detecta cláusulas abusivas, riesgos y puntos problemáticos en segundos.</p>
+</div>
+
+<div class="ad">
+  <div>
+    <div class="ad-label">Anuncio · Google AdSense</div>
+    <div class="ad-text">¿Necesitas un abogado? LegalChile.cl — Primera consulta gratis</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="card">
+    <div class="card-title">📄 Analiza tu documento</div>
+    <textarea id="contrato" placeholder="Pega aquí el texto del contrato, términos y condiciones, política de cookies o privacidad..."></textarea>
+    <div class="counter" id="counter">0 caracteres</div>
+    <button class="btn-analizar" id="btnAnalizar" onclick="analizar()">🔍 Analizar con IA</button>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    Analizando el documento con IA...
+  </div>
+
+  <div class="card results" id="resultados">
+    <div class="card-title">⚠️ Resultado del análisis</div>
+    <div id="lista"></div>
+  </div>
+
+  <div class="card" style="margin-top: 28px;">
+    <div class="card-title">⭐ Planes</div>
+    <div class="plans">
+      <div class="plan">
+        <div class="plan-nombre">Gratis</div>
+        <div class="plan-precio">$0 <small>/mes</small></div>
+        <div class="plan-item"><span class="check">✓</span> 3 análisis al mes</div>
+        <div class="plan-item"><span class="check">✓</span> Detección básica</div>
+        <div class="plan-item"><span class="cross">✗</span> Con anuncios</div>
+      </div>
+      <div class="plan destacado">
+        <div class="popular">Más popular</div>
+        <div class="plan-nombre">Pro</div>
+        <div class="plan-precio">$9 <small>/mes</small></div>
+        <div class="plan-item"><span class="check">✓</span> Análisis ilimitados</div>
+        <div class="plan-item"><span class="check">✓</span> Sin anuncios</div>
+        <div class="plan-item"><span class="check">✓</span> Reporte descargable</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('contrato').addEventListener('input', function() {
+  document.getElementById('counter').textContent = this.value.length + ' caracteres';
+});
+
+async function analizar() {
+  const texto = document.getElementById('contrato').value.trim();
+  if (!texto) { alert('Por favor pega el texto del contrato primero.'); return; }
+
+  const btn = document.getElementById('btnAnalizar');
+  btn.disabled = true;
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('resultados').classList.remove('visible');
+
+  try {
+    const apiKey = 'TU_CLAVE_GEMINI_AQUI';
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `Eres un experto legal. Analiza este documento y devuelve SOLO un JSON válido sin markdown. Formato exacto:
+{"items":[{"tipo":"RIESGO_ALTO|ADVERTENCIA|INFO","titulo":"título corto","descripcion":"explicación breve en español"}]}
+Máximo 5 items. Detecta cláusulas abusivas, riesgos legales, recopilación de datos, cookies problemáticas.
+
+Documento:
+${texto.slice(0, 3000)}`
+          }]
+        }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.candidates[0].content.parts[0].text;
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    const lista = document.getElementById('lista');
+    lista.innerHTML = '';
+    parsed.items.forEach(item => {
+      const cls = item.tipo === 'RIESGO_ALTO' ? 'tag-alto' : item.tipo === 'ADVERTENCIA' ? 'tag-medio' : 'tag-info';
+      const label = item.tipo === 'RIESGO_ALTO' ? 'Riesgo alto' : item.tipo === 'ADVERTENCIA' ? 'Advertencia' : 'Info';
+      lista.innerHTML += `<div class="result-item">
+        <span class="tag ${cls}">${label}</span>
+        <div><div class="result-titulo">${item.titulo}</div><div class="result-desc">${item.descripcion}</div></div>
+      </div>`;
+    });
+
+    document.getElementById('resultados').classList.add('visible');
+  } catch(e) {
+    alert('Error al analizar. Revisa tu clave de API.');
+  }
+
+  document.getElementById('loading').classList.remove('visible');
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
